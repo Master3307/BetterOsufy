@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        BetterOsufy
 // @namespace   http://tampermonkey.net/
-// @version     1.3
+// @version     1.4
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @author      Master3307
 // @match       https://osufy.lonke.ro/
-// @icon        https://master3307.netlify.app/assets/media/osufy_favicon.png
+// @icon        https://master3307.netlify.app/assets/media/osufy_favicon.webp
 // @grant       none
 // @license     MIT
 // @updateURL   https://update.greasyfork.org/scripts/539159/BetterOsufy.user.js
@@ -2862,7 +2862,7 @@ h5 {
   margin-right: auto !important;
   font-size: 0 !important; /* Versteckt eventuellen Textinhalt */
   height: 60px !important; /* Setzt die Höhe für das Bild */
-  background-image: url('https://master3307.netlify.app/assets/media/osufy!.png') !important;
+  background-image: url('https://master3307.netlify.app/assets/media/osufy!.webp') !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 20%;
