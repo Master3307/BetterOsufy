@@ -5,7 +5,7 @@
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @author      Master3307
 // @match       https://osufy.lonke.ro/
-// @icon        https://www.google.com/s2/favicons?sz=64&domain=lonke.ro
+// @icon        https://master3307.netlify.app/assets/media/osufy_favicon.png
 // @grant       none
 // ==/UserScript==
 
