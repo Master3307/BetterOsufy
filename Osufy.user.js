@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        BetterOsufy
 // @namespace   http://tampermonkey.net/
-// @version     1.2
+// @version     1.3
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @author      Master3307
 // @match       https://osufy.lonke.ro/
@@ -15,70 +15,78 @@
 
 (function () {
   "use strict";
-    const newLang = 'en'; 
-    const htmlElement = document.documentElement;
-    if (htmlElement) {
-        htmlElement.setAttribute('lang', newLang);
-    }
+  const newLang = "en";
+  const htmlElement = document.documentElement;
+  if (htmlElement) {
+    htmlElement.setAttribute("lang", newLang);
+  }
 
-    // Add counter elements after page load
-    function addCounters() {
-        const searchInput = document.querySelector('input[type="text"]');
-        if (!searchInput || document.getElementById('song-counters')) return;
+  // Add counter elements after page load
+  function addCounters() {
+    const searchInput = document.querySelector('input[type="text"]');
+    if (!searchInput || document.getElementById("song-counters")) return;
 
-        const countersDiv = document.createElement('div');
-        countersDiv.id = 'song-counters';
-        countersDiv.style.cssText = `
+    const countersDiv = document.createElement("div");
+    countersDiv.id = "song-counters";
+    countersDiv.style.cssText = `
             margin-top: 5px;
             color: rgba(255, 255, 255, 0.87);
             font-size: 14px;
         `;
 
-        countersDiv.innerHTML = `
+    countersDiv.innerHTML = `
             <span id="maps-count">Maps found: 0</span> | 
             <span id="songs-count">Songs found: 0</span> | 
             <span id="missing-count">Missing: 0</span>
         `;
 
-        searchInput.parentNode.appendChild(countersDiv);
-    }
+    searchInput.parentNode.appendChild(countersDiv);
+  }
 
-    // Update counter values
-    function updateCounters() {
-        const panels = document.querySelectorAll('.mui-panel');
-        const mapsCount = panels.length;
-        const songsCount = new Set(Array.from(panels).map(panel => 
-            panel.querySelector('h2')?.textContent.trim()
-        )).size;
-        const missingCount = mapsCount - songsCount;
+  // Update counter values
+  function updateCounters() {
+    const panels = document.querySelectorAll(".mui-panel");
+    const mapsCount = panels.length;
+    const songsCount = new Set(
+      Array.from(panels).map((panel) =>
+        panel.querySelector("h2")?.textContent.trim()
+      )
+    ).size;
+    const missingCount = mapsCount - songsCount;
 
-        document.getElementById('maps-count').textContent = `Maps found: ${mapsCount}`;
-        document.getElementById('songs-count').textContent = `Songs found: ${songsCount}`;
-        document.getElementById('missing-count').textContent = `Missing: ${missingCount}`;
-    }
+    document.getElementById(
+      "maps-count"
+    ).textContent = `Maps found: ${mapsCount}`;
+    document.getElementById(
+      "songs-count"
+    ).textContent = `Songs found: ${songsCount}`;
+    document.getElementById(
+      "missing-count"
+    ).textContent = `Missing: ${missingCount}`;
+  }
 
-    // Set up observers
-    function initializeCounters() {
-        addCounters();
-        const songsContainer = document.getElementById('songs');
-        if (songsContainer) {
-            const observer = new MutationObserver((mutations) => {
-                for (const mutation of mutations) {
-                    if (mutation.type === 'childList') {
-                        updateCounters();
-                    }
-                }
-            });
-            observer.observe(songsContainer, { childList: true, subtree: true });
+  // Set up observers
+  function initializeCounters() {
+    addCounters();
+    const songsContainer = document.getElementById("songs");
+    if (songsContainer) {
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.type === "childList") {
+            updateCounters();
+          }
         }
+      });
+      observer.observe(songsContainer, { childList: true, subtree: true });
     }
+  }
 
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', initializeCounters);
-    // Backup initialization for dynamic page loads
-    setTimeout(initializeCounters, 1000);
+  // Initialize when DOM is ready
+  document.addEventListener("DOMContentLoaded", initializeCounters);
+  // Backup initialization for dynamic page loads
+  setTimeout(initializeCounters, 1000);
 
-    // --- START OF CUSTOM CSS INJECTION ---
+  // --- START OF CUSTOM CSS INJECTION ---
   const customCss = `/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
     font-family: sans-serif;
@@ -2848,11 +2856,16 @@ h5 {
   display: none
 }
 .title {
-    width: 80%; /* Oder eine feste Breite wie z.B. 600px */
-    max-width: 900px; /* Optional: Eine maximale Breite, um es auf sehr großen Bildschirmen nicht zu breit werden zu lassen */
-    margin-left: auto; /* Zentriert das Element horizontal */
-    margin-right: auto; /* Zentriert das Element horizontal */
-    text-align: center; /* Optional: Zentriert den Text innerhalb des Elements */
+  max-width: 900px !important;
+  height: 300px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: 0 !important; /* Versteckt eventuellen Textinhalt */
+  height: 60px !important; /* Setzt die Höhe für das Bild */
+  background-image: url('https://master3307.netlify.app/assets/media/osufy!.png') !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 20%;
 }
 .mui--text-accent-secondary {
 	/*Your code should go under this comment*/
@@ -2864,7 +2877,7 @@ h5 {
 `; // <-- DO NOT DELETE THIS BACKTICK OR SEMICOLON
 
   // This part injects the custom CSS into the page.
-  
+
   const styleElement = document.createElement("style");
   styleElement.textContent = customCss;
   document.head.appendChild(styleElement);
@@ -2956,82 +2969,92 @@ h5 {
   });
 
   function createBeatmapHtml(beatmap, index) {
-    const panel = document.createElement('div');
-    panel.classList.add('mui-col-md-12', 'mui-col-lg-4', 'song-panel');
+    const panel = document.createElement("div");
+    panel.classList.add("mui-col-md-12", "mui-col-lg-4", "song-panel");
 
-    const muiPanel = document.createElement('div');
-    muiPanel.classList.add('mui-panel');
+    const muiPanel = document.createElement("div");
+    muiPanel.classList.add("mui-panel");
 
     // Create tabs wrapper for difficulties
-    const tabsWrapper = document.createElement('div');
-    tabsWrapper.classList.add('mui-tabs-wrapper');
+    const tabsWrapper = document.createElement("div");
+    tabsWrapper.classList.add("mui-tabs-wrapper");
 
     // For each difficulty in the beatmap
     beatmap.difficulties.forEach((diff, diffIndex) => {
-        const pane = document.createElement('div');
-        pane.classList.add('mui-tabs__pane');
-        if (diffIndex === 0) pane.classList.add('mui--is-active');
-        pane.id = `pane-${beatmap.beatmapsetId}-${diffIndex}`;
+      const pane = document.createElement("div");
+      pane.classList.add("mui-tabs__pane");
+      if (diffIndex === 0) pane.classList.add("mui--is-active");
+      pane.id = `pane-${beatmap.beatmapsetId}-${diffIndex}`;
 
-        // Create difficulty info section
-        const diffInfo = document.createElement('div');
-        diffInfo.classList.add('mui-col-md-12', 'diff-info', 'padding-left-0');
-        
-        // Add difficulty stats (AR, OD, CS, HP, BPM)
-        const stats = [
-            {text: 'AR', value: diff.ar || '?', title: 'Approach rate'},
-            {text: 'OD', value: diff.od || '?', title: 'Overall difficulty'},
-            {text: 'CS', value: diff.cs || '?', title: 'Circle size'},
-            {text: 'HP', value: diff.hp || '?', title: 'Health drain'},
-            {text: 'BPM', value: beatmap.bpm || '?', title: 'Beats Per Minute'}
-        ];
+      // Create difficulty info section
+      const diffInfo = document.createElement("div");
+      diffInfo.classList.add("mui-col-md-12", "diff-info", "padding-left-0");
 
-        stats.forEach(stat => {
-            const div = document.createElement('div');
-            div.classList.add('mui--z1');
-            div.title = stat.title;
-            div.innerHTML = `
+      // Add difficulty stats (AR, OD, CS, HP, BPM)
+      const stats = [
+        { text: "AR", value: diff.ar || "?", title: "Approach rate" },
+        { text: "OD", value: diff.od || "?", title: "Overall difficulty" },
+        { text: "CS", value: diff.cs || "?", title: "Circle size" },
+        { text: "HP", value: diff.hp || "?", title: "Health drain" },
+        { text: "BPM", value: beatmap.bpm || "?", title: "Beats Per Minute" },
+      ];
+
+      stats.forEach((stat) => {
+        const div = document.createElement("div");
+        div.classList.add("mui--z1");
+        div.title = stat.title;
+        div.innerHTML = `
                 <span>
                     <span class="info-text">${stat.text}</span>
                     <span class="info-value">${stat.value}</span>
                 </span>
             `;
-            diffInfo.appendChild(div);
-        });
+        diffInfo.appendChild(div);
+      });
 
-        pane.appendChild(diffInfo);
-        tabsWrapper.appendChild(pane);
+      pane.appendChild(diffInfo);
+      tabsWrapper.appendChild(pane);
     });
 
     // Add the rest of the beatmap info (image, metadata, etc.)
-    const contentDiv = document.createElement('div');
-    contentDiv.classList.add('mui-col-md-12', 'padding-left-0');
-    
+    const contentDiv = document.createElement("div");
+    contentDiv.classList.add("mui-col-md-12", "padding-left-0");
+
     // Create image container with play button
-    const imgCol = document.createElement('div');
-    imgCol.classList.add('song-image', 'mui--z2');
-    imgCol.style.background = `url('${beatmap.cover || '//via.placeholder.com/150'}')`;
-    
-    const playButton = document.createElement('span');
-    playButton.classList.add('play');
+    const imgCol = document.createElement("div");
+    imgCol.classList.add("song-image", "mui--z2");
+    imgCol.style.background = `url('${
+      beatmap.cover || "//via.placeholder.com/150"
+    }')`;
+
+    const playButton = document.createElement("span");
+    playButton.classList.add("play");
     playButton.dataset.id = beatmap.beatmapsetId;
     playButton.innerHTML = '<i class="fa fa-play"></i>';
-    
+
     imgCol.appendChild(playButton);
     contentDiv.appendChild(imgCol);
 
     // Add song info
-    const songInfo = document.createElement('div');
-    songInfo.classList.add('song-info');
+    const songInfo = document.createElement("div");
+    songInfo.classList.add("song-info");
     songInfo.innerHTML = `
-        <div title="Creator"><i class="fa fa-user"></i> <a href="http://osu.ppy.sh/users/${beatmap.creator}" target="_blank">${beatmap.creator}</a></div>
-        <div title="Genre"><i class="fa fa-paint-brush"></i> ${beatmap.genre || 'Unknown'}</div>
+        <div title="Creator"><i class="fa fa-user"></i> <a href="http://osu.ppy.sh/users/${
+          beatmap.creator
+        }" target="_blank">${beatmap.creator}</a></div>
+        <div title="Genre"><i class="fa fa-paint-brush"></i> ${
+          beatmap.genre || "Unknown"
+        }</div>
     `;
     contentDiv.appendChild(songInfo);
 
     // Add download buttons
-    const infoWrapper = document.createElement('div');
-    infoWrapper.classList.add('info-wrapper', 'mui-col-xs-12', 'padding-left-0');
+    const infoWrapper = document.createElement("div");
+    infoWrapper.classList.add(
+      "info-wrapper",
+      "mui-col-xs-12",
+      "padding-left-0"
+    );
     infoWrapper.innerHTML = `
         <div class="download-buttons">
             <a href="${beatmap.downloadUrl}" target="_blank" title="Download from osu! website"><i class="fa fa-download"></i></a>
@@ -3046,5 +3069,5 @@ h5 {
     panel.appendChild(muiPanel);
 
     return panel;
-}
+  }
 })();
