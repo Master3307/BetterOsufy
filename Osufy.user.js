@@ -1,12 +1,16 @@
 // ==UserScript==
 // @name        BetterOsufy
 // @namespace   http://tampermonkey.net/
-// @version     1.0
+// @version     1.2
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @author      Master3307
 // @match       https://osufy.lonke.ro/
 // @icon        https://master3307.netlify.app/assets/media/osufy_favicon.png
 // @grant       none
+// @license     MIT
+// @updateURL   https://update.greasyfork.org/scripts/539159/BetterOsufy.user.js
+// @downloadURL https://update.greasyfork.org/scripts/539159/BetterOsufy.user.js
+// @website     https://master3307.netlify.app/home
 // ==/UserScript==
 
 (function () {
