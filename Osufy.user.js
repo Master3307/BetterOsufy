@@ -1,8 +1,12 @@
 // ==UserScript==
 // @name        BetterOsufy
+// @name:en     BetterOsufy
+// @name:de     BetterOsufy
 // @namespace   http://tampermonkey.net/
-// @version     1.4
+// @version     1.5
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
+// @description:en As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
+// @description:de Im Moment fügt es den Dunkelmodus hinzu, schöneres CSS im Allgemeinen, Zahlen zur Anzeige, wie viele Songs gefunden wurden, und mehr! Wenn der Entwickler von Osufy dies sieht, kann er gerne einen Teil dieses Codes verwenden. Ich habe ein wenig seltsame Sachen mit KI gemacht, tut mir leid.
 // @author      Master3307
 // @match       https://osufy.lonke.ro/
 // @icon        https://master3307.netlify.app/assets/media/osufy_favicon.webp
