@@ -85,6 +85,10 @@
       });
       observer.observe(songsContainer, { childList: true, subtree: true });
     }
+    // Update counters once after setup to reflect any existing songs
+    if (document.getElementById("maps-count")) {
+      updateCounters();
+    }
   }
 
   // Initialize when DOM is ready
