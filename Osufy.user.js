@@ -3,7 +3,7 @@
 // @name:en     BetterOsufy
 // @name:de     BetterOsufy
 // @namespace   http://tampermonkey.net/
-// @version     1.7
+// @version     1.8
 // @description As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @description:en As of right now, adds dark mode, nicer css in general, numbers to display how many songs it found and more! If the dev of Osufy sees this, feel free to use some of this code. I did a little bit of weird stuff with AI, sorry.
 // @description:de Im Moment fügt es den Dunkelmodus hinzu, schöneres CSS im Allgemeinen, Zahlen zur Anzeige, wie viele Songs gefunden wurden, und mehr! Wenn der Entwickler von Osufy dies sieht, kann er gerne einen Teil dieses Codes verwenden. Ich habe ein wenig seltsame Sachen mit KI gemacht, tut mir leid.
@@ -47,6 +47,16 @@
         `;
 
     searchInput.parentNode.appendChild(countersDiv);
+
+    // --- Add "Found: X" next to the search button ---
+    const searchButton = searchInput.parentNode.querySelector('button, input[type="submit"]');
+    if (searchButton && !document.getElementById("found-total-span")) {
+      const foundSpan = document.createElement("span");
+      foundSpan.id = "found-total-span";
+      foundSpan.style.cssText = "margin-left: 12px; color: #FF327A; font-weight: bold; font-size: 1.1em;";
+      foundSpan.textContent = "Found: 0";
+      searchButton.parentNode.insertBefore(foundSpan, searchButton.nextSibling);
+    }
   }
 
   // Update counter values
@@ -69,6 +79,12 @@
     document.getElementById(
       "missing-count"
     ).textContent = `Missing: ${missingCount}`;
+
+    // --- Update "Found: X" span next to search button ---
+    const foundSpan = document.getElementById("found-total-span");
+    if (foundSpan) {
+      foundSpan.textContent = `Found: ${mapsCount}`;
+    }
   }
 
   // Set up observers
