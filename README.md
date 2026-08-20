@@ -15,7 +15,7 @@
 <h2>🖼️・Screenshots</h2>
 
 <img src="screenshots/no-script.png" width="50%"><img src="screenshots/yes-script.png" width="50%">
-<img src="screenshots/no-script-listing.png" width="50%"><img src="screenshots/yes-script-listing.png" width="50%">
+<img src="screenshots/no-script-listings.png" width="50%"><img src="screenshots/yes-script-listings.png" width="50%">
 <h2>❕・Credits</h2>
 
 Created as an enhancement for Osufy. If you're the developer of Osufy and would like to incorporate any of these improvements, feel free to use this code as reference, as I used some from you.
